@@ -28,7 +28,7 @@ NOTICE: arrays are always passed by address.
 In fact we can change the function header to use pointer notation!
 Exercise at home -  change the function header to use a pointer - observe that no further changes are necessary
 */
-void getGradesFromUser(float g[]){
+void getGradesFromUser(float *g){
 	for(int i = 0 ; i < SIZE; i++){
 		printf("enter the %d grade: ", i);
 		scanf("%f", &g[i]);
