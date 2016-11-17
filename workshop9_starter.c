@@ -12,6 +12,8 @@ int main(void){
 	//declare file pointers - don't forget to initialize to NULL
 	//file pointers are our exclusive way to deal with files
 	FILE *inFile = NULL; //file for input
+	//declare a file pointer for the output file
+
 	//open the input file for reading
 	inFile = fopen("note.txt", "r");
 	//open the output file for writing
@@ -22,10 +24,14 @@ int main(void){
 		while(c != EOF){
 			c = fgetc(inFile);
 			printf("DEBUG: read character %c ASCII code: %d\n", c, c);
+			//write the character to the output file (fputc)
 		}
 		
 	}else{
 		printf("Could not open the file!!!\n");
 	}
+
+	//never forget to close the file when done!!!
+	fclose(inFile);
 	return 0;
 }
