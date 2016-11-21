@@ -21,8 +21,19 @@ cheat: by entering a secret hero name, the hero will get a lot stronger
 //function prototypes (headers)
 void printWelcomeScreen(void);
 void getHeroName(char name[]);
+void hitCharacter(char whoIsHitting[], char whoWasHit[], int damage, int *hp);
+void clearBuffer(void);
 
 int main(void){
+
+	//represent hero health
+	int heroHP = 15;
+	//represent the damage the the hero can do to the monster
+	int heroDamage = 7;
+	//represent monster health
+	int monsterHP = 20;
+	//represent the damage the monster can do to the hero
+	int monsterDamage = 5;
 	char monsterName[] = "Freiza";
 	/*reserve enough space for hero name 100 characters or less +1 for the terminating null*/
 	char heroName[MAX_NAME_SIZE + 1] = "DEFAULT NAME";
@@ -32,7 +43,24 @@ int main(void){
 	getHeroName(heroName);
 	//use strlen to get and display the number of characters hero's name
 	printf("DEBUG: user entered: %s, length: %d\n", heroName, strlen(heroName));
-
+	printf("A wild %s appears\n", monsterName);
+	//the hero battles the monster as long as the both have HP > 0
+	while(heroHP > 0 && monsterHP > 0) {
+		//hero hits the monster
+		hitCharacter(heroName, monsterName, heroDamage, &monsterHP); 
+		//if the monster is still alive (monsterHP > 0)
+		if(monsterHP > 0){
+			//monster hits the hero
+			hitCharacter(monsterName, heroName, monsterDamage, &heroHP);
+		}
+		printf("press Enter to continue the battle!!!\n");
+		clearBuffer(); //this will wait until the user presses enter
+	}
+	if(heroHP > 0){
+		printf("%s won the battle!!!!!!\n", heroName);
+	}else{
+		printf("%s won the battle :(\n", monsterName); 
+	}
 	return 0;
 }
 
@@ -47,5 +75,18 @@ void getHeroName(char name[]){
 	//use scanf to copy the entered name into our array
 	//don't forget we #define'd MAX_NAME_SIZE as 100	
 	scanf("%100[^\n]",name); 
+	clearBuffer();
+}
+
+void hitCharacter(char whoIsHitting[], char whoWasHit[], int damage, int *hp){
+	//subtract damage from the remaining Health Points
+	*hp = *hp - damage;
+	//display what happened to the user:
+	printf("%s hit %s for %d\n", whoIsHitting, whoWasHit, damage) ;
+	printf("%s has %d health remaining\n", whoWasHit, *hp);
+}
+
+void clearBuffer(void){
+	while(getchar() != '\n');
 
 }
