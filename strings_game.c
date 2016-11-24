@@ -82,6 +82,7 @@ int main(void){
 	}
 	if(heroHP > 0){
 		printf("%s won the battle!!!!!!\n", heroName);
+		//TODO: insert treasure code
 	}else{
 		printf("%s won the battle :(\n", monsterName); 
 	}
