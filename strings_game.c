@@ -44,15 +44,28 @@ int main(void){
 	char monsterName[] = "Freiza";
 	/*reserve enough space for hero name 100 characters or less +1 for the terminating null*/
 	char heroName[MAX_NAME_SIZE + 1] = "DEFAULT NAME";
+	//store the secret cheat code name
+	char cheatCode[] = "CHUCKNOR";// see internet memes for chuck norris jokes
 	//show intro screen
 	printWelcomeScreen();
 	//get the user's name
 	getHeroName(heroName);
+	//at this point we can check whether the user has entered the cheat code
+	if(strcmp(heroName, cheatCode) == 0){
+		//if strcmp returns 0 that means the strings are identical
+		//display an exciting power up message!!
+		printf("Chuck Norris can make fire by rubbing two ice cubes. CHEAT ACTIVATED!!!!\n\n");
+		//give the hero extra health
+		heroHP += 10;
+	}
+	
 	//use strlen to get and display the number of characters hero's name
 	printf("DEBUG: user entered: %s, length: %d\n", heroName, strlen(heroName));
 	printf("A wild %s appears\n", monsterName);
 	//the hero battles the monster as long as the both have HP > 0
 	while(heroHP > 0 && monsterHP > 0) {
+		printf("%s health: %d: %s health: %d\n\n", heroName, heroHP, 
+			monsterName, monsterHP);
 		//hero hits the monster
 		//in order to introduce some random behavior, alter the hero's damage each time
 		int damage = heroDamage + rand() % 3;
