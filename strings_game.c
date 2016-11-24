@@ -16,6 +16,11 @@ cheat: by entering a secret hero name, the hero will get a lot stronger
 #include <stdio.h>
 //strlen, strcmp, strcpy, and strcat come from string.h
 #include <string.h>
+//access to the rand() and srand() functions
+#include <stdlib.h>
+//need the time in order to seed the random number generator
+#include <time.h>
+
 
 #define MAX_NAME_SIZE 100
 //function prototypes (headers)
@@ -25,7 +30,9 @@ void hitCharacter(char whoIsHitting[], char whoWasHit[], int damage, int *hp);
 void clearBuffer(void);
 
 int main(void){
-
+	/*call srand and pass the current system time in order to get
+	a different series of numbers out of rand() each time the game is played*/
+	srand(time(NULL));
 	//represent hero health
 	int heroHP = 15;
 	//represent the damage the the hero can do to the monster
@@ -33,7 +40,7 @@ int main(void){
 	//represent monster health
 	int monsterHP = 20;
 	//represent the damage the monster can do to the hero
-	int monsterDamage = 5;
+	int monsterDamage = 4;
 	char monsterName[] = "Freiza";
 	/*reserve enough space for hero name 100 characters or less +1 for the terminating null*/
 	char heroName[MAX_NAME_SIZE + 1] = "DEFAULT NAME";
@@ -47,11 +54,15 @@ int main(void){
 	//the hero battles the monster as long as the both have HP > 0
 	while(heroHP > 0 && monsterHP > 0) {
 		//hero hits the monster
-		hitCharacter(heroName, monsterName, heroDamage, &monsterHP); 
+		//in order to introduce some random behavior, alter the hero's damage each time
+		int damage = heroDamage + rand() % 3;
+		printf("DEBUG: randomly chose %d damage for the hero\n", damage);
+		hitCharacter(heroName, monsterName, damage, &monsterHP); 
 		//if the monster is still alive (monsterHP > 0)
 		if(monsterHP > 0){
 			//monster hits the hero
-			hitCharacter(monsterName, heroName, monsterDamage, &heroHP);
+			damage = monsterDamage + rand() % 6;
+			hitCharacter(monsterName, heroName, damage, &heroHP);
 		}
 		printf("press Enter to continue the battle!!!\n");
 		clearBuffer(); //this will wait until the user presses enter
